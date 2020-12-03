@@ -11,7 +11,13 @@ server.on('request', (request: IncomingMessage, response: ServerResponse) => {
   const {method, url: path, headers} = request;
   //处理查询参数用url.parse
   const {pathname, search} = url.parse(path);
-  // response.setHeader('Content-type', 'text/html; charset=utf-8');
+  //处理请求问题
+  if(method === 'POST') {
+    response.statusCode = 405;
+    response.end();
+    return
+  }
+  response.setHeader('Content-type', 'text/html; charset=utf-8');
   let filename = pathname.substr(1);
   if (filename === '') {
     filename = 'index.html';
